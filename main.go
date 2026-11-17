@@ -98,6 +98,10 @@ func sync(ctx context.Context) error {
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("unexpected status code %d", resp.StatusCode)
+	}
+
 	keys, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return fmt.Errorf("could not read keys: %w", err)
